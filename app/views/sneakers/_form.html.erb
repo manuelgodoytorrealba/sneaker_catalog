@@ -1,0 +1,102 @@
+<%= form_with(model: sneaker, class: "space-y-6 bg-white p-6 rounded-lg shadow") do |form| %>
+  <% if sneaker.errors.any? %>
+    <div class="bg-red-50 border border-red-400 text-red-700 px-4 py-3 rounded">
+      <h2 class="font-bold mb-2">
+        <%= pluralize(sneaker.errors.count, "error") %> impidieron guardar este producto:
+      </h2>
+      <ul class="list-disc pl-5">
+        <% sneaker.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <!-- Marca -->
+  <div>
+    <%= form.label :brand, "Marca", class: "block font-medium text-gray-700" %>
+    <%= form.text_field :brand, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200" %>
+  </div>
+
+  <!-- Modelo -->
+  <div>
+    <%= form.label :model, "Modelo", class: "block font-medium text-gray-700" %>
+    <%= form.text_field :model, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200" %>
+  </div>
+
+  <!-- Colorway -->
+  <div>
+    <%= form.label :colorway, "Colorway", class: "block font-medium text-gray-700" %>
+    <%= form.text_field :colorway, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200" %>
+  </div>
+
+  <!-- Talla -->
+  <div>
+    <%= form.label :size, "Talla", class: "block font-medium text-gray-700" %>
+    <%= form.text_field :size, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200" %>
+  </div>
+
+  <!-- SKU -->
+  <div>
+    <%= form.label :sku, "SKU", class: "block font-medium text-gray-700" %>
+    <%= form.text_field :sku, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200" %>
+  </div>
+
+  <!-- Precio -->
+  <div>
+    <%= form.label :price_cents, "Precio (centavos)", class: "block font-medium text-gray-700" %>
+    <%= form.number_field :price_cents, min: 0, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200" %>
+    <p class="text-sm text-gray-500">Ejemplo: 18999 = 189,99 €</p>
+  </div>
+
+  <!-- Moneda -->
+  <div>
+    <%= form.label :currency, "Moneda", class: "block font-medium text-gray-700" %>
+    <%= form.text_field :currency, placeholder: "€", class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200" %>
+  </div>
+
+  <!-- Descripción -->
+  <div>
+    <%= form.label :description, "Descripción", class: "block font-medium text-gray-700" %>
+    <%= form.text_area :description, rows: 4, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200" %>
+  </div>
+
+  <!-- Estado -->
+  <div>
+    <%= form.label :condition, "Estado", class: "block font-medium text-gray-700" %>
+    <%= form.select :condition,
+          Sneaker.conditions.keys.map { |k| [ k.humanize, k ] },
+          { include_blank: "Selecciona estado" },
+          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200" %>
+  </div>
+
+  <!-- Stock -->
+  <div>
+    <%= form.label :stock, "Stock", class: "block font-medium text-gray-700" %>
+    <%= form.number_field :stock, min: 0, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200" %>
+  </div>
+
+  <!-- Imágenes -->
+  <div>
+    <%= form.label :images, "Imágenes", class: "block font-medium text-gray-700" %>
+    <%= form.file_field :images, multiple: true, direct_upload: true, class: "mt-1 block w-full text-sm text-gray-900 border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none" %>
+    <p class="text-sm text-gray-500 mt-1">Puedes seleccionar varias imágenes.</p>
+  </div>
+
+  <!-- Publicado -->
+  <div class="flex items-center gap-2">
+    <%= form.check_box :published, class: "h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" %>
+    <%= form.label :published, "Publicado", class: "text-gray-700" %>
+  </div>
+
+  <!-- Slug -->
+  <div>
+    <%= form.label :slug, "Slug (URL personalizada)", class: "block font-medium text-gray-700" %>
+    <%= form.text_field :slug, placeholder: "opcional", class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200" %>
+  </div>
+
+  <!-- Botón -->
+  <div>
+    <%= form.submit "Guardar", class: "px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-500" %>
+  </div>
+<% end %>

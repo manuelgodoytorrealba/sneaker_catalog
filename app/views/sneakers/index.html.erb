@@ -1,0 +1,28 @@
+<h2 class="text-3xl font-bold mb-6">Catálogo</h2>
+
+<% if @sneakers.any? %>
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+    <% @sneakers.each do |s| %>
+      <div class="border rounded-xl overflow-hidden shadow hover:shadow-lg transition bg-white">
+        <%= link_to s, class: "block" do %>
+          <div class="aspect-square bg-gray-100 flex items-center justify-center overflow-hidden">
+          <% if s.images.attached? %>
+  <%= image_tag s.images.first, class: "w-full h-full object-cover" %>
+<% else %>
+  <span class="text-gray-400">Sin imagen</span>
+<% end %>
+          </div>
+          <div class="p-4">
+            <p class="font-semibold text-lg"><%= [ s.brand, s.model ].join(" ") %></p>
+            <p class="text-sm text-gray-600 mb-1"><%= s.colorway %></p>
+            <p class="mt-1 font-bold text-blue-600">
+              <%= number_to_currency(s.price, unit: (s.currency.presence || "€")) %>
+            </p>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <div class="text-gray-500">No hay zapatillas publicadas todavía.</div>
+<% end %>

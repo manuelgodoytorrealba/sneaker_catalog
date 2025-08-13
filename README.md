@@ -76,10 +76,3 @@ bin/rails s
 ```
 
 Visita `http://localhost:3000` para verificar que la conexión funciona correctamente.
-
-```
-
----
-
-Si quieres, en el siguiente bloque del README te puedo añadir la parte de **migraciones y estructura del catálogo de zapatillas** para que quede todo documentado desde ya. Así el README sería un manual completo de instalación + estructura de datos.
-```
