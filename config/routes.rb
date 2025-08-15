@@ -2,6 +2,7 @@
 # It includes routes for the main sneakers resource and an admin namespace.
 
 Rails.application.routes.draw do
+  devise_for :users
   resources :sneakers
   root "sneakers#index"
 

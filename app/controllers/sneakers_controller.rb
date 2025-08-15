@@ -1,6 +1,12 @@
 class SneakersController < ApplicationController
   before_action :set_sneaker, only: %i[ show edit update destroy ]
 
+  # 👇 exige login para todo excepto catálogo y ficha
+  before_action :authenticate_user!, except: %i[index show]
+
+  # 👇 solo admins pueden crear/editar/borrar
+  before_action :require_admin, only: %i[new create edit update destroy]
+
   # GET /sneakers
   def index
     @sneakers = Sneaker.where(published: true).order(created_at: :desc)
@@ -64,7 +70,14 @@ class SneakersController < ApplicationController
       :brand, :model, :colorway, :size, :sku,
       :price_cents, :currency, :description,
       :condition, :stock, :published, :slug,
-      images: [] # importante para has_many_attached
+      images: []
     )
+  end
+
+  # 🔐 Solo admins
+  def require_admin
+    unless current_user&.admin?
+      redirect_to root_path, alert: "No tienes permisos para acceder aquí."
+    end
   end
 end

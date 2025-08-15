@@ -1,0 +1,59 @@
+<h2 class="text-2xl font-bold mb-6">Editar perfil</h2>
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "space-y-4" }) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+
+  <div>
+    <%= f.label :full_name, "Nombre completo", class: "block font-medium" %>
+    <%= f.text_field :full_name, autofocus: true, class: "w-full border rounded px-3 py-2" %>
+  </div>
+
+  <div>
+    <%= f.label :phone_number, "Teléfono", class: "block font-medium" %>
+    <%= f.text_field :phone_number, class: "w-full border rounded px-3 py-2" %>
+  </div>
+
+  <div>
+    <%= f.label :email, "Email", class: "block font-medium" %>
+    <%= f.email_field :email, autocomplete: "email", class: "w-full border rounded px-3 py-2" %>
+  </div>
+
+  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+    <div class="text-sm text-gray-500">
+      Actualmente esperando confirmación para: <%= resource.unconfirmed_email %>
+    </div>
+  <% end %>
+
+  <hr class="my-4">
+
+  <div>
+    <%= f.label :password, "Nueva contraseña", class: "block font-medium" %>
+    <%= f.password_field :password, autocomplete: "new-password", class: "w-full border rounded px-3 py-2" %>
+    <% if @minimum_password_length %>
+      <em class="text-gray-500 text-sm">(<%= @minimum_password_length %> caracteres mínimo)</em>
+    <% end %>
+    <p class="text-xs text-gray-400">Déjalo en blanco si no quieres cambiarla.</p>
+  </div>
+
+  <div>
+    <%= f.label :password_confirmation, "Confirmar contraseña", class: "block font-medium" %>
+    <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "w-full border rounded px-3 py-2" %>
+  </div>
+
+  <div>
+    <%= f.label :current_password, "Contraseña actual (requerida para confirmar cambios)", class: "block font-medium" %>
+    <%= f.password_field :current_password, autocomplete: "current-password", class: "w-full border rounded px-3 py-2" %>
+  </div>
+
+  <div class="flex gap-2">
+    <%= f.submit "Actualizar", class: "px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-500" %>
+    <%= link_to "Cancelar", root_path, class: "px-4 py-2 bg-gray-200 rounded hover:bg-gray-300" %>
+  </div>
+<% end %>
+
+<hr class="my-6">
+
+<h3 class="text-lg font-semibold text-red-600 mb-2">Eliminar mi cuenta</h3>
+<div>
+  <%= button_to "Eliminar cuenta", registration_path(resource_name), data: { confirm: "¿Estás seguro?", turbo_confirm: "¿Estás seguro?" }, method: :delete, class: "px-4 py-2 bg-red-600 text-white rounded hover:bg-red-500" %>
+</div>
