@@ -27,19 +27,22 @@
             <div class="text-gray-500"><%= s.colorway %></div>
           </td>
           <td class="px-4 py-3"><%= s.sku %></td>
-          <td class="px-4 py-3"><%= number_to_currency((s.price_cents||0)/100.0, unit: (s.currency || "€")) %></td>
+
           <td class="px-4 py-3"><%= s.condition&.humanize %></td>
           <td class="px-4 py-3">
             <span class="inline-flex items-center px-2 py-1 rounded text-xs
-              <%= s.published ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600' %>">
+              <%= s.published ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-600" %>">
               <%= s.published ? "Publicado" : "Oculto" %>
             </span>
           </td>
           <td class="px-4 py-3"><%= s.images.attached? ? s.images.count : 0 %></td>
           <td class="px-4 py-3">
             <div class="flex gap-2 justify-end">
-              <%= link_to "Ver", s, class: "px-2 py-1 rounded border" %>
-              <%= link_to "Editar", edit_admin_sneaker_path(s), class: "px-2 py-1 rounded border" %>
+            <%= link_to "Ver", s,
+              class: "px-3 py-1.5 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-500 transition" %>
+
+            <%= link_to "Editar", edit_admin_sneaker_path(s),
+              class: "px-3 py-1.5 rounded-lg bg-yellow-500 text-white font-medium hover:bg-yellow-400 transition" %>
               <%= button_to (s.published ? "Ocultar" : "Publicar"),
                     toggle_publish_admin_sneaker_path(s),
                     method: :patch,

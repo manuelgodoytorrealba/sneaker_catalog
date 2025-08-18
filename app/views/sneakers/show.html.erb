@@ -1,18 +1,47 @@
-<% content_for :title, "Showing sneaker" %>
+<% content_for :title, @sneaker.brand %>
 
-<div class="md:w-2/3 w-full">
+<div class="max-w-5xl mx-auto py-8">
   <% if notice.present? %>
     <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-md inline-block" id="notice"><%= notice %></p>
   <% end %>
 
-  <h1 class="font-bold text-4xl">Showing sneaker</h1>
+  <h1 class="font-bold text-3xl mb-6"><%= @sneaker.brand %> — <%= @sneaker.model %></h1>
 
-  <%= render @sneaker %>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8" data-controller="gallery">
+    <div>
+      <% if @sneaker.images.attached? %>
+        <img data-gallery-target="main"
+             src="<%= url_for(@sneaker.images.first) %>"
+             class="w-full aspect-square object-cover rounded-2xl" />
+        <div class="mt-4 grid grid-cols-4 gap-3">
+          <% @sneaker.images.each_with_index do |img, idx| %>
+            <%= image_tag img.variant(resize_to_limit: [ 400, 400 ]),
+                  data: { action: "click->gallery#show", gallery_index_param: idx },
+                  class: "h-20 w-full object-cover rounded-xl cursor-pointer border" %>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="aspect-square rounded-2xl bg-gray-100"></div>
+      <% end %>
+    </div>
 
-  <% if user_signed_in? && current_user.admin? %>
-    <%= link_to "Edit this sneaker", edit_sneaker_path(@sneaker), class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-    <%= button_to "Destroy this sneaker", @sneaker, method: :delete, form_class: "sm:inline-block mt-2 sm:mt-0 sm:ml-2", class: "w-full rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer", data: { turbo_confirm: "Are you sure?" } %>
-  <% end %>
+    <div class="space-y-2">
+      <p><span class="font-semibold">Colorway:</span> <%= @sneaker.colorway %></p>
+      <p><span class="font-semibold">Talla:</span> <%= @sneaker.size %></p>
+      <p><span class="font-semibold">SKU:</span> <%= @sneaker.sku.presence || "—" %></p>
+      <p><span class="font-semibold">Stock:</span> <%= @sneaker.stock %></p>
+      <p class="pt-2"><%= simple_format(@sneaker.description) %></p>
 
-  <%= link_to "Back to sneakers", sneakers_path, class: "w-full sm:w-auto text-center mt-2 sm:mt-0 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
+      <% if user_signed_in? && current_user.admin? %>
+        <div class="pt-6 flex gap-3">
+          <%= link_to "Editar", edit_sneaker_path(@sneaker), class: "rounded-xl px-4 py-2 bg-gray-900 text-white" %>
+          <%= button_to "Eliminar", @sneaker, method: :delete,
+                class: "rounded-xl px-4 py-2 bg-red-600 text-white",
+                data: { turbo_confirm: "¿Seguro?" } %>
+        </div>
+      <% end %>
+
+      <%= link_to "Volver", sneakers_path, class: "mt-4 inline-block rounded-xl px-4 py-2 bg-gray-100" %>
+    </div>
+  </div>
 </div>
